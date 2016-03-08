@@ -17,6 +17,7 @@ source=(http://freedesktop.org/software/$pkgname/$pkgname-$pkgver.tar.xz{,.sig})
 sha256sums=('e2db8c5357f8859b33c58e583601f50509f085ae9340a58790bcf44f1480c1c3'
             'SKIP')
 validpgpkeys=('3C2C43D9447D5938EF4551EBE23B7E70B467F0BF') # Peter Hutterer (Who-T) <office@who-t.net>
+groups=(custom)
 
 build() {
   cd $pkgname-$pkgver
