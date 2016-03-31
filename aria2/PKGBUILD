@@ -1,0 +1,52 @@
+# $Id: PKGBUILD 166870 2016-03-16 04:30:52Z fyan $
+# Maintainer: Felix Yan <felixonmars@archlinux.org>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Thomas Dziedzic < gostrc at gmail >
+# Contributor: Angel Velasquez <angvp@archlinux.org>
+# Contributor: Alexander Fehr <pizzapunk gmail com>
+# Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
+
+pkgname=aria2
+pkgver=1.21.0
+pkgrel=1
+pkgdesc='Download utility that supports HTTP(S), FTP, BitTorrent, and Metalink'
+arch=('i686' 'x86_64')
+url='http://aria2.sourceforge.net/'
+license=('GPL')
+depends=('gnutls' 'libxml2' 'sqlite' 'c-ares' 'ca-certificates' 'libssh2')
+checkdepends=('cppunit')
+source=("https://github.com/tatsuhiro-t/aria2/releases/download/release-$pkgver/aria2-$pkgver.tar.xz"
+        "aria2-fast.patch")
+sha256sums=('225c5f2c8acc899e0a802cdf198f82bd0d3282218e80cdce251b1f9ffacf6580'
+            'c6b84c42259f13c80c1b7d85ef1d783a84cca1b54c79e622c816d8ee86f37d6b')
+groups=(custom)
+
+build() {
+  cd $pkgname-$pkgver
+
+  patch -Np1 -i $srcdir/aria2-fast.patch
+
+  ./configure \
+    --prefix=/usr \
+    --disable-bittorrent --disable-metalink --disable-websocket \
+    --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
+    --without-appletls --without-wintls
+
+  make
+}
+
+check() {
+  cd $pkgname-$pkgver
+  make check
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+
+  # add bash completion
+  install -d "$pkgdir"/usr/share/bash-completion/completions
+  install -m644 "$pkgdir"/usr/share/doc/aria2/bash_completion/aria2c \
+    "$pkgdir"/usr/share/bash-completion/completions
+  rm -rf "$pkgdir"/usr/share/doc/aria2/bash_completion
+}
