@@ -13,7 +13,7 @@ pkgdesc='Download utility that supports HTTP(S), FTP, BitTorrent, and Metalink'
 arch=('i686' 'x86_64')
 url='http://aria2.sourceforge.net/'
 license=('GPL')
-depends=('gnutls' 'libxml2' 'sqlite' 'c-ares' 'ca-certificates' 'libssh2')
+depends=('gnutls' 'sqlite' 'c-ares' 'ca-certificates')
 checkdepends=('cppunit')
 source=("https://github.com/tatsuhiro-t/aria2/releases/download/release-$pkgver/aria2-$pkgver.tar.xz"
         "aria2-fast.patch")
@@ -28,9 +28,8 @@ build() {
 
   ./configure \
     --prefix=/usr \
-    --disable-bittorrent --disable-metalink --disable-websocket \
     --with-ca-bundle=/etc/ssl/certs/ca-certificates.crt \
-    --without-appletls --without-wintls
+    --disable-bittorrent --disable-metalink --without-libssh2 --without-libxml2
 
   make
 }
