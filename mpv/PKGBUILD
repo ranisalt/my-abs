@@ -10,7 +10,7 @@ depends=(
   'ffmpeg' 'lcms2' 'libcdio-paranoia' 'libgl' 'enca' 'libxss'
   'libxinerama' 'libxv' 'libxkbcommon' 'libva' 'libcaca'
   'desktop-file-utils' 'hicolor-icon-theme' 'xdg-utils' 'luajit' 'libdvdnav'
-  'libguess' 'libxrandr' 'jack' 'rubberband'
+  'libguess' 'libxrandr' 'rubberband'
 )
 makedepends=('mesa' 'python-docutils' 'ladspa' 'hardening-wrapper')
 optdepends=('youtube-dl: for video-sharing websites playback')
@@ -34,6 +34,7 @@ build() {
     --enable-zsh-comp \
     --enable-libmpv-shared \
     --enable-cdda \
+    --disable-jack \
     --disable-libsmbclient \
     --disable-wayland \
     --lua=luajit
