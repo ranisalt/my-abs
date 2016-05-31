@@ -20,22 +20,25 @@ optdepends=('dmenu: As menu.'
             'perl-anyevent-i3: Features like saving the layout.'
             'perl-json-xs: Features like saving the layout.')
 options=('docs' '!strip')
-source=("http://i3wm.org/downloads/${_pkgsourcename}-${pkgver}.tar.bz2"
-        "http://i3wm.org/downloads/${_pkgsourcename}-${pkgver}.tar.bz2.asc")
+source=(http://i3wm.org/downloads/${_pkgsourcename}-${pkgver}.tar.bz2{,.asc}
+        no-redraw-windows-on-drag.patch)
 md5sums=('308fc79ed252e1f3c8a093598e13e326'
-         'SKIP')
+         'SKIP'
+         'f3c78ed9c4edf10661bf31cdf1c063f2')
 validpgpkeys=('424E14D703E7C6D43D9D6F364E7160ED4AC8EE1D') # Michael Stapelberg
 
 build() {
-  cd "$srcdir/$_pkgsourcename-$pkgver"
+  cd "${srcdir}/${_pkgsourcename}-${pkgver}"
+
+  patch src/floating.c -i "${srcdir}/no-redraw-windows-on-drag.patch"
 
   make
 }
 
 package() {
-  cd "$srcdir/$_pkgsourcename-$pkgver"
+  cd "${srcdir}/${_pkgsourcename}-${pkgver}"
 
-  make DESTDIR="$pkgdir/" install
+  make DESTDIR="${pkgdir}/" install
 
   install -Dm644 man/i3.1 \
     ${pkgdir}/usr/share/man/man1/i3.1
