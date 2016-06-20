@@ -11,7 +11,7 @@ makedepends=('acl' 'cryptsetup' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'pam' 'libelf'
              'intltool' 'iptables' 'kmod' 'libcap' 'libidn' 'libgcrypt'
              'libxslt' 'util-linux' 'linux-api-headers'
              'python-lxml' 'shadow' 'gnu-efi-libs' 'git')
-options=('strip' 'debug')
+options=('strip')
 source=("git://github.com/systemd/systemd.git#tag=v$pkgver"
         'initcpio-hook-udev'
         'initcpio-install-systemd'
@@ -114,7 +114,6 @@ package_systemd() {
   replaces=('nss-myhostname' 'systemd-tools' 'udev')
   conflicts=('nss-myhostname' 'systemd-tools' 'udev')
   optdepends=('cryptsetup: required for encrypted block devices'
-              'systemd-sysvcompat: symlink package to provide sysvinit binaries'
               'polkit: allow administration as unprivileged user')
   backup=(etc/dbus-1/system.d/org.freedesktop.systemd1.conf
           etc/dbus-1/system.d/org.freedesktop.login1.conf
@@ -169,9 +168,6 @@ package_systemd() {
   # ship default policy to leave services disabled
   echo 'disable *' >"$pkgdir"/usr/lib/systemd/system-preset/99-default.preset
 
-  ### manpages shipped with systemd-sysvcompat
-  rm "$pkgdir"/usr/share/man/man8/{telinit,halt,reboot,poweroff,runlevel,shutdown}.8
-
   ### runtime libraries shipped with libsystemd
   rm "$pkgdir"/usr/lib/lib{nss,systemd,udev}*.so*
 
@@ -190,26 +186,6 @@ package_libsystemd() {
   provides=('libsystemd.so' 'libudev.so')
 
   make -C "$pkgbase" DESTDIR="$pkgdir" install-libLTLIBRARIES
-}
-
-package_systemd-sysvcompat() {
-  pkgdesc="sysvinit compat for systemd"
-  license=('GPL2')
-  groups=('base')
-  conflicts=('sysvinit')
-  depends=('systemd')
-
-  install -dm755 "$pkgdir"/usr/share/man/man8
-  cp -d --no-preserve=ownership,timestamp \
-    "$pkgbase"/man/{telinit,halt,reboot,poweroff,runlevel,shutdown}.8 \
-    "$pkgdir"/usr/share/man/man8
-
-  install -dm755 "$pkgdir/usr/bin"
-  for tool in runlevel reboot shutdown poweroff halt telinit; do
-    ln -s 'systemctl' "$pkgdir/usr/bin/$tool"
-  done
-
-  ln -s '../lib/systemd/systemd' "$pkgdir/usr/bin/init"
 }
 
 # vim: ft=sh syn=sh et
