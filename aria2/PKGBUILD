@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 166870 2016-03-16 04:30:52Z fyan $
+# $Id: PKGBUILD 180285 2016-06-15 14:01:27Z felixonmars $
 # Maintainer: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 # Contributor: Thomas Dziedzic < gostrc at gmail >
@@ -7,7 +7,7 @@
 # Contributor: Daniel J Griffiths <ghost1227@archlinux.us>
 
 pkgname=aria2
-pkgver=1.23.0
+pkgver=1.24.0
 pkgrel=1
 pkgdesc='Download utility that supports HTTP(S), FTP, BitTorrent, and Metalink'
 arch=('i686' 'x86_64')
@@ -17,7 +17,7 @@ depends=('gnutls' 'sqlite' 'c-ares' 'ca-certificates')
 checkdepends=('cppunit')
 source=("https://github.com/tatsuhiro-t/aria2/releases/download/release-$pkgver/aria2-$pkgver.tar.xz"
         "aria2-fast.patch")
-sha256sums=('585185866415bf1120e4bf0a484e7dfec2e9e7c5305023b15ad0f66f90391f93'
+sha256sums=('35a496d2704ffb07e0b0dcac16c6d9b2854327967f984218517403d187f7bf37'
             'c6b84c42259f13c80c1b7d85ef1d783a84cca1b54c79e622c816d8ee86f37d6b')
 groups=(custom)
 
