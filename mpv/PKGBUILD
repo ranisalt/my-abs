@@ -1,7 +1,12 @@
+# $Id: PKGBUILD 182448 2016-07-07 06:29:29Z alucryd $
+# Maintainer: Christian Hesse <mail@eworm.de>
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Eivind Uggedal <eivind@uggedal.com>
+
 pkgname=mpv
 epoch=1
 pkgver=0.18.0
-pkgrel=1
+pkgrel=3
 _waf_version=1.8.12
 pkgdesc='a free, open source, and cross-platform media player'
 arch=('i686' 'x86_64')
@@ -11,7 +16,7 @@ depends=(
   'ffmpeg' 'lcms2' 'libcdio-paranoia' 'libgl' 'enca' 'libxss'
   'libxinerama' 'libxv' 'libxkbcommon' 'libva' 'libcaca'
   'desktop-file-utils' 'hicolor-icon-theme' 'xdg-utils' 'luajit' 'libdvdnav'
-  'libguess' 'libxrandr' 'rubberband'
+  'libxrandr' 'rubberband'
 )
 makedepends=('mesa' 'python-docutils' 'ladspa' 'hardening-wrapper')
 optdepends=('youtube-dl: for video-sharing websites playback')
