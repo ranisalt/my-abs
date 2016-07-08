@@ -87,12 +87,16 @@ build() {
     --with-default-dnssec=no
     --without-kill-user-processes
 
+    --disable-dependency-tracking
+    --disable-maintainer-mode
     --disable-apparmor
     --disable-backlight
     --disable-binfmt
     --disable-hostnamed
     --disable-firstboot
+    --disable-hibernate
     --disable-importd
+    --disable-kdbus
     --disable-localed
     --disable-machined
     --disable-microhttpd
@@ -127,7 +131,6 @@ package_systemd() {
           etc/pam.d/systemd-user
           etc/systemd/coredump.conf
           etc/systemd/journald.conf
-          etc/systemd/journal-remote.conf
           etc/systemd/journal-upload.conf
           etc/systemd/logind.conf
           etc/systemd/system.conf
@@ -174,6 +177,9 @@ package_systemd() {
   # ship default policy to leave services disabled
   echo 'disable *' >"$pkgdir"/usr/lib/systemd/system-preset/99-default.preset
 
+  ### manpages shipped with systemd-sysvcompat
+  rm "$pkgdir"/usr/share/man/man8/{telinit,halt,reboot,poweroff,runlevel,shutdown}.8
+
   ### runtime libraries shipped with libsystemd
   rm "$pkgdir"/usr/lib/lib{nss,systemd,udev}*.so*
 
@@ -192,6 +198,26 @@ package_libsystemd() {
   provides=('libsystemd.so' 'libudev.so')
 
   make -C "$pkgbase" DESTDIR="$pkgdir" install-libLTLIBRARIES
+}
+
+package_systemd-sysvcompat() {
+  pkgdesc="sysvinit compat for systemd"
+  license=('GPL2')
+  groups=('base')
+  conflicts=('sysvinit')
+  depends=('systemd')
+
+  install -dm755 "$pkgdir"/usr/share/man/man8
+  cp -d --no-preserve=ownership,timestamp \
+    "$pkgbase"/man/{telinit,halt,reboot,poweroff,runlevel,shutdown}.8 \
+    "$pkgdir"/usr/share/man/man8
+
+  install -dm755 "$pkgdir/usr/bin"
+  for tool in runlevel reboot shutdown poweroff halt telinit; do
+    ln -s 'systemctl' "$pkgdir/usr/bin/$tool"
+  done
+
+  ln -s '../lib/systemd/systemd' "$pkgdir/usr/bin/init"
 }
 
 # vim: ft=sh syn=sh et
