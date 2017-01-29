@@ -1,4 +1,4 @@
-# $Id: PKGBUILD 202337 2016-12-25 19:24:28Z eworm $
+# $Id: PKGBUILD 206096 2017-01-08 16:12:58Z eworm $
 # Maintainer: Christian Hesse <mail@eworm.de>
 # Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
 # Contributor: Eivind Uggedal <eivind@uggedal.com>
@@ -6,7 +6,7 @@
 pkgname=mpv
 epoch=1
 pkgver=0.23.0
-pkgrel=1
+pkgrel=3
 _waf_version=1.8.12
 pkgdesc='a free, open source, and cross-platform media player'
 arch=('i686' 'x86_64')
